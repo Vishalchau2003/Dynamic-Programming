@@ -1,0 +1,76 @@
+
+
+//recursion
+// class Solution {
+//   public:
+//     int find(vector<int>&height,int idx){
+        
+//         if(idx==0) return 0;
+//         int one=abs(height[idx]-height[idx-1])+find(height,idx-1);
+//         int two=INT_MAX;
+//         if(idx>1){
+//          two=abs(height[idx]-height[idx-2])+find(height,idx-2);
+//         }
+        
+//         return min(one,two);
+//     }
+//     int minCost(vector<int>& height) {
+
+//         return find(height,height.size()-1);
+//     }
+// };
+
+
+//memo
+
+// class Solution {
+// public:
+//     int find(vector<int>& height, int idx, vector<int>& dp) {
+
+//         if (idx == 0) return 0;
+
+//         if (dp[idx] != -1) return dp[idx];
+
+//         int one = abs(height[idx] - height[idx - 1]) 
+//                   + find(height, idx - 1, dp);
+
+//         int two = INT_MAX;
+
+//         if (idx > 1) {
+//             two = abs(height[idx] - height[idx - 2]) 
+//                   + find(height, idx - 2, dp);
+//         }
+
+//         return dp[idx] = min(one, two);
+//     }
+
+//     int minCost(vector<int>& height) {
+//         vector<int> dp(height.size(), -1);
+//         return find(height, height.size() - 1, dp);
+//     }
+// };
+
+
+class Solution {
+public:
+   
+    int minCost(vector<int>& height) {
+        vector<int> dp(height.size(), 0);
+        
+        dp[0]=0;
+        for(int idx=1;idx<height.size();idx++){
+        int one = abs(height[idx] - height[idx - 1]) 
+                  + dp[idx-1];
+
+        int two = INT_MAX;
+
+        if (idx > 1) {
+            two = abs(height[idx] - height[idx - 2]) 
+                  +dp[idx-2];
+        }
+         dp[idx] = min(one, two);
+        }
+        
+        return dp[height.size()-1];
+    }
+};
